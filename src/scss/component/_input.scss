@@ -1,0 +1,23 @@
+textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: $small-space;
+    font-size: 16px;
+    font-weight: 500;
+    color: $secondary;
+    border-radius: 5px;
+    border: solid 1px #979797;
+    resize: vertical;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+    opacity: .9;
+    background-color: #e0e0e0;
+}
+
+// input:read-only,
+// textarea:read-only {
+//     background-color: #e0e0e0;
+// }

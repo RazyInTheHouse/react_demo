@@ -1,0 +1,78 @@
+.sign-record {
+    display: flex;
+    margin-bottom: 24px;
+    font-size: 16px;
+    color: #6f6f6f;
+
+    &:first-child .sign-record-header::before {
+        content: none;
+    }
+    .sign-record-header {
+        display: flex;
+        align-items: center;
+        width: 32px;
+        padding: 0 8px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+        background-color: #5f5f5f;
+    
+        font-size: 16px;
+        color: #ffffff;
+        position: relative;
+        
+        &::before {
+            content: " ";
+            width: 8px;
+            height: 24px;
+            background-color: #5f5f5f;
+            position: absolute;
+            top: -24px;
+            left: 12px;
+        }
+
+        &.current {
+            background-color: #265fdb;
+            &::before {
+                background-color: #265fdb;
+            }
+        }
+
+    }
+
+    .sign-record-content {
+        flex: 1 1 auto;
+        padding: 16px;
+        border-radius: 4px;
+        background-color: #f1f1f1;
+
+        .line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 16px;        
+        }
+
+        .activity-name {
+            font-weight: 500;
+            color: #2e3d47;
+        }
+            
+        .opinion {
+            min-height: 48px;
+            padding: 8px;
+            margin: 8px 0 14px 0;
+            border-radius: 4px;
+            border: solid 1px #979797;
+            background-color: #ffffff;
+        }
+        
+        .result {
+            display: inline-block;
+            height: 32px;
+            padding: 5px 24px;
+            border-radius: 4px;
+            background-color: #2e8d14;
+            color: #ffffff;
+        }
+    }
+}

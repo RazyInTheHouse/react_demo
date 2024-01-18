@@ -1,0 +1,48 @@
+$switch-active:#24a148;
+$switch-speed: .3s;
+$switch-radius: 12px;
+
+.switch {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 0;
+
+    .wrap {
+        display: flex;
+        align-items: center;
+        & > .bar {
+            padding: 0 3px;
+            position: relative;
+            width: 48px;
+            height: 24px;
+            display: inline-block;
+            border-radius: $switch-radius;
+            background-color: #8d8d8d;
+            &:before {
+                content: "";
+                position: absolute;
+                border-radius: $switch-radius;
+                height: 18px;
+                width: 18px;
+                 left: 3px;
+                bottom: 3px;
+                background-color: white;
+                transition: $switch-speed;
+            }
+            &.active {
+                background-color: $switch-active;
+                &:before{
+                    left: 27px;
+                }
+            }
+        }
+        
+        & > .text {
+            line-height: 24px;
+            font-size: 16px;
+            color: $secondary;
+            margin-left: $small-space;
+            user-select: none;
+        }
+    }
+}

@@ -1,0 +1,32 @@
+// $computer-width: 1024px;
+$tablet-width: 1023px;
+$mobile-width: 576px;
+
+@mixin computer {
+    @media screen and (min-width: $tablet-width + 1px) {
+        @content;
+    }
+}
+@mixin tablet {
+    @media screen and (max-width: $tablet-width) and (min-width: $mobile-width + 1px) {
+        @content;
+    }
+}
+
+@mixin tablet-above {
+    @media screen and (min-width: $mobile-width + 1px) {
+        @content;
+    }
+}
+
+@mixin tablet-below {
+    @media screen and (max-width: $tablet-width) {
+        @content;
+    }
+}
+
+@mixin mobile {
+    @media screen and (max-width: $mobile-width) {
+        @content;
+    }
+}

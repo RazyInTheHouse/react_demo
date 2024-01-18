@@ -1,0 +1,152 @@
+$tooltip-index : 5;
+$tooltip-time: .1s;
+
+.show-tooltip {
+
+    // @include mobile {
+    //     display: none;
+    // }
+    position: relative;
+
+    &:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity $tooltip-time linear;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        opacity: 0;
+        padding: 8px 8px;
+
+        transition: visibility 0s $tooltip-time, opacity $tooltip-time linear;
+
+        border-radius: 4px;
+        border: solid 1px #3d4c5a;
+        color: #3d4c5a;
+        font-size: 12px;
+        line-height: 10px;
+        text-align: left;
+        white-space: nowrap;
+        background-color: white;
+
+        position: absolute;
+        z-index: $tooltip-index;
+    }
+
+    .tooltip-bottom {
+        left: 50%;
+        transform: translate(-50%, 100%);
+        bottom: -8px;
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 50% ;
+            top: -11px;
+            transform: translate(-50%, 0);
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent #3d4c5a transparent; 
+            z-index: $tooltip-index;
+        }
+        &::before {
+            content: "";
+            position: absolute;
+            left: 50% ;
+            top: -10px;
+            transform: translate(-50%, 0);
+            border-width: 5px; 
+            border-style: solid;
+            border-color: transparent transparent white transparent;
+            z-index: $tooltip-index + 1;
+        }
+    }
+
+    .tooltip-top {
+        left: 50%;
+        transform: translate(-50%, -100%);
+        top: -8px;
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 50% ;
+            bottom: -11px;
+            transform: translate(-50%, 0);
+            border-width: 5px;
+            border-style: solid;
+            border-color: #3d4c5a transparent transparent transparent;
+            z-index: $tooltip-index;
+        }
+        &::before {
+            content: "";
+            position: absolute;
+            left: 50% ;
+            bottom: -10px;
+            transform: translate(-50%, 0);
+            border-width: 5px;
+            border-style: solid;
+            border-color: white transparent transparent transparent;
+            z-index: $tooltip-index + 1;
+        }
+    }
+
+    .tooltip-left {
+        top: 50%;
+        transform: translate(-100%, -50%);
+        left: -8px;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: -11px;
+            transform: translate(0, -50%);
+            border-width: 5.5px;
+            border-style: solid;
+            border-color:  transparent transparent transparent #3d4c5a;
+            z-index: $tooltip-index;
+        }
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: -9px;
+            transform: translate(0, -50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color:  transparent transparent transparent white; 
+            z-index: $tooltip-index + 1;
+        }
+    }
+    .tooltip-right {
+        top: 50%;
+        transform: translate(100%, -50%);
+        right: -8px;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: -11px;
+            transform: translate(0, -50%);
+            border-width: 5.5px;
+            border-style: solid;
+            border-color:  transparent #3d4c5a transparent transparent;
+            z-index: $tooltip-index;
+        }
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: -9px;
+            transform: translate(0, -50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color:  transparent white transparent transparent ; 
+            z-index: $tooltip-index + 1;
+
+        }
+    }
+}

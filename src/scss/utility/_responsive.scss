@@ -1,0 +1,29 @@
+.computer-hide {
+    @include computer {
+        display: none !important;
+    }
+}
+
+.tablet-above-hide {
+    @include tablet-above {
+        display: none !important;
+    }
+}
+
+.tablet-hide {
+    @include tablet {
+        display: none !important;
+    }
+}
+
+.tablet-below-hide {
+    @include tablet-below {
+        display: none !important;
+    }
+}
+
+.mobile-hide {
+    @include mobile {
+        display: none !important;
+    }
+}

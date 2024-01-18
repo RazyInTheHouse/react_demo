@@ -1,0 +1,49 @@
+.checkbox {
+    display: inline-block;
+    .checkbox-wrap {
+        display: flex;
+        align-items: center;
+
+        input[type='checkbox'] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+            
+            &:checked + .mark{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+    
+                &::before {
+                    content: "";
+                    width: 5px;
+                    height: 10px;
+                    border: solid #3d4c5a;
+                    border-width: 0 3px 3px 0;
+                    margin-bottom: 3px;
+                    transform: rotate(45deg);
+                        }
+            }
+        }
+
+        .mark {
+            display: inline-block;
+            // display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 18px;
+            height: 18px;
+            border: 2px solid #3d4c5a;
+            background-color: transparent;
+            
+        }
+        .text {
+            cursor: pointer;
+            user-select: none;
+            margin-left: 8px;
+        }
+    }
+}
