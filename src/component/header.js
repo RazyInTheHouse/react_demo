@@ -6,15 +6,15 @@ import { ReactComponent as MenuIcon } from '../svg/menu.svg';
 import logo from '../image/logo.png'
 import { setShowSidebar } from '../redux/globalSlice'
 import { logout } from '../redux/globalSlice'
-import { useNavigate } from "react-router-dom";
+import useCheckTimeout from '../hook/useCheckTimeout';
 
 
 const Header = () => {
+    useCheckTimeout()
     const dispatch = useDispatch()
-    const { empName } = useSelector(s => s.user)
-    const navigate = useNavigate()
+    const { empName, isTimeout } = useSelector(s => s.user)
     const handleRdirectToIndex = () => {
-        navigate('/')
+        //navigate('/')
     }
 
     const handleLogout = () => {
@@ -39,6 +39,7 @@ const Header = () => {
                 <div className="item-menu cursor-pointer">
                     <MenuIcon onClick={handleOpenSidebar} />
                 </div>
+                {!isTimeout &&
                     <div className="item-content mobile-hide">
                         <div className="item">
                             <UserIcon /> {empName}
@@ -47,7 +48,8 @@ const Header = () => {
                         <div className="item cursor-pointer" onClick={handleLogout}>
                             <ExitIcon /> {'登出'}
                         </div>
-                    </div>                
+                    </div>  
+                }              
             </div>
         </header>
     )

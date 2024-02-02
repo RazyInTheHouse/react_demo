@@ -1,29 +1,41 @@
 
-
+import { useSelector } from "react-redux";
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from "react-router-dom";
-import LoginView from './View/login'
-import HomeView from './View/homeView'
-import QueryAppliedView from "./View/queryAppliedView";
+import route from "./route";
+import LoginView from './view/login';
+import TimeoutView from "./view/timeoutView";
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route>
-      <Route path="/" element={<HomeView />} />
-      <Route path="/testlogin" element={<LoginView />} />
-      <Route path="/queryApplied" element={<QueryAppliedView />} />
-    </Route>
-  )
-);
+
+const Router = () => {
+  const { isTimeout } = useSelector(s => s.user)
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      isTimeout?
+      <Route>
+        <Route path="/" element={<TimeoutView />} />
+        <Route path="/Testlogin" element={<LoginView />} />
+      </Route>
+      :
+      <Route>
+        {
+          route.map((item, index) => <Route key={index} path={item.path} element={<item.component />}></Route>)
+        }
+      </Route>
+    )
+  );
+  return router
+}
 
 function App() {
+  
   return (
-    <div>
-      <RouterProvider router={router} />
+    <div>   
+      <RouterProvider router={Router()} />
     </div>
   );
 }

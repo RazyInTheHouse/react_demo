@@ -9,7 +9,7 @@ import ExitIcon from '../icon/exitIcon'
 
 const Navbar = () => {
     const dispatch = useDispatch()
-    const { empName } = useSelector(s => s.user)
+    const { empName, isTimeout } = useSelector(s => s.user)
     const [stickyNavbar, setStickyNavbar] = useState('')
     const { showSidebar } = useSelector(s => s.global)
 
@@ -44,6 +44,7 @@ const Navbar = () => {
             <div className={`sidebar-mask ${showSidebar ? 'show' : ''}`} onClick={() => dispatch(setShowSidebar(false))}>
             </div>
             <nav id="navbar" className={`${stickyNavbar} ${showSidebar ? 'show' : ''}`}>
+                {!isTimeout &&
                     <React.Fragment>                       
                         <div className="nav-container">
                             <Link to="/" onClick={handleCloseSidebar}>首頁</Link>                            
@@ -51,7 +52,8 @@ const Navbar = () => {
                             
                             
                         </div>
-                    </React.Fragment>             
+                    </React.Fragment>    
+                }         
             </nav>
         </React.Fragment>
     )
