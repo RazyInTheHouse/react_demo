@@ -30,7 +30,6 @@ const PrintApplyDetail = () => {
     const [address, setAddress] = useState(printApplyDetail.address)
     const formData = useLocationState() 
     const [isShowPopup, setIsShowPopup] = useState()
-    const { showLoading } = useSelector(s => s.global)
 
 
     useEffect(()=>{

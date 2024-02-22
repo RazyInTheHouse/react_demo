@@ -3,13 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import Link from '../component/link'
 import { setShowSidebar } from '../redux/globalSlice'
 import { logout } from '../redux/globalSlice'
-import UserIcon from '../icon/userIcon'
-import ExitIcon from '../icon/exitIcon'
+import roleEnum from '../enum/role'
 
 
 const Navbar = () => {
     const dispatch = useDispatch()
-    const { empName, isTimeout } = useSelector(s => s.user)
+    const { role, isTimeout } = useSelector(s => s.user)
     const [stickyNavbar, setStickyNavbar] = useState('')
     const { showSidebar } = useSelector(s => s.global)
 
@@ -31,10 +30,6 @@ const Navbar = () => {
         }
     }
 
-    const handleLogout = () => {
-        dispatch(logout())
-    }
-
     const handleCloseSidebar = () => {
         dispatch(setShowSidebar(false))
     }
@@ -45,14 +40,18 @@ const Navbar = () => {
             </div>
             <nav id="navbar" className={`${stickyNavbar} ${showSidebar ? 'show' : ''}`}>
                 {!isTimeout &&
-                    <React.Fragment>                       
                         <div className="nav-container">
                             <Link to="/" onClick={handleCloseSidebar}>首頁</Link>                            
-                            <Link to="/queryApplied" onClick={handleCloseSidebar}>申請案件查詢</Link>                            
-                            
-                            
+                            <Link to="/query" onClick={handleCloseSidebar}>申請案件查詢</Link>                            
+                            <Link to="/statistic" onClick={handleCloseSidebar}>申請數量統計</Link> 
+                            {
+                               ( role === roleEnum.Admin || role === roleEnum.Warehouse ) && 
+                                <React.Fragment>                                  
+                                    <Link to="/maintain" onClick={handleCloseSidebar}>印刷品項維護</Link>                                                                        
+                                    <Link to="/review" onClick={handleCloseSidebar}>倉庫審核作業</Link>
+                                </React.Fragment>    
+                            }
                         </div>
-                    </React.Fragment>    
                 }         
             </nav>
         </React.Fragment>

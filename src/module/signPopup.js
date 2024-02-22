@@ -15,7 +15,7 @@ const SignPopup = (props) => {
         <div className={`popup-mask ${isShow ? 'show' : ''}`}>
             <div className="popup">
                 <div className="popup-header">
-                    <h2>{`請填寫撤銷原因`}</h2>
+                    <h2>{`請填寫退回原因`}</h2>
                     <i className="close fas fa-times" onClick={handleClosePopup}></i>
                 </div>
                 <div className="popup=body">

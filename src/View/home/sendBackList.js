@@ -1,13 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Table from "../../module/table";
 import Layout from "../../module/layout";
-import { QuerySendBackFormsAction } from "../../thunk/homeThunk";
+import { QuerySendBackFormsAction, RevokeAction } from "../../thunk/homeThunk";
 import { ToDate } from "../../utility/datetimeFormat";
 import { Link } from "react-router-dom";
+import SignPopup from "../../module/signPopup";
+
 
 const List = ({ data }) => {    
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const status = useSelector(s => s.parameter.filter(m => m.classID === 'Status')[0])   
+    const [isShowPopup, setIsShowPopup] = useState()
+
+    const handleShowPopup = () => {
+        setIsShowPopup(true)
+    }
+
+    const handleClosePopup = () => {
+        setIsShowPopup(false)       
+    }
+
+    const handleUpdatePrintApply = () => {
+        navigate('/printApplyDetail', { state: { formNo: data.formNo, isEdit: true } })
+    }
+
+    const handleRevoke = (formNo, opinion) => {            
+        dispatch(RevokeAction(formNo, opinion))
+    }
 
     return(
         <React.Fragment>
@@ -16,8 +38,17 @@ const List = ({ data }) => {
                 <td data-title="申請單號"><Link to='/printApplyDetail' state={{ formNo: data.formNo }}>{data.formNo}</Link></td>
                 <td data-title="申請日期">{ToDate(data.startTime)}</td>
                 <td data-title="退件關卡">{status.data.find(m => m.ID === data.status)?.Name ?? data.status}</td>
-                <td data-title="退件原因">{data.opinion}</td>              
-            </tr>           
+                <td data-title="退件原因">{data.opinion}</td>
+                <td data-title="">
+                    <button className="btn btn-primary" disabled={data.status === 'Mreturned' || data.status === 'Wreturned'? false : true} onClick={handleShowPopup}>撤銷申請單</button>               
+                </td>
+                <td>
+                    <button className="btn btn-primary" disabled={data.status === 'Mreturned' || data.status === 'Wreturned'? false : true} onClick={handleUpdatePrintApply}>調整申請單</button>
+                </td>
+            </tr>
+            {
+                <SignPopup formNo={data.formNo} isShow={isShowPopup} onClosePopup={handleClosePopup} onSubmit={handleRevoke}/>                
+            }                         
         </React.Fragment>
     )
 }
@@ -40,6 +71,8 @@ const SendBackList = () => {
                             <th>申請日期</th>
                             <th>退件關卡</th>
                             <th>退件原因</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

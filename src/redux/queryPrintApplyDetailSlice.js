@@ -17,7 +17,7 @@ const initialState = {
     detail:[],         
 }
 
-const queryPrintApplyDetail = createSlice({
+const queryPrintApplyDetailSlice = createSlice({
     name: 'queryPrintApplyDetail',
     initialState,
     reducers: {
@@ -34,6 +34,6 @@ const queryPrintApplyDetail = createSlice({
         },
     }
 })
-export const { reset, setData } = queryPrintApplyDetail.actions
+export const { reset, setData } = queryPrintApplyDetailSlice.actions
 
-export default queryPrintApplyDetail.reducer
+export default queryPrintApplyDetailSlice.reducer

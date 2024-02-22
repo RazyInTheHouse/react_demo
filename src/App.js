@@ -5,6 +5,7 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
+  createHashRouter
 } from "react-router-dom";
 import route from "./route";
 import LoginView from './view/login';
@@ -13,7 +14,7 @@ import TimeoutView from "./view/timeoutView";
 
 const Router = () => {
   const { isTimeout } = useSelector(s => s.user)
-  const router = createBrowserRouter(
+  const router = createHashRouter(
     createRoutesFromElements(
       isTimeout?
       <Route>

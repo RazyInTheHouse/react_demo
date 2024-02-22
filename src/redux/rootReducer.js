@@ -6,6 +6,9 @@ import parameterReducer from './parameterSlice'
 import queryPrintApplyDetailReducer from './queryPrintApplyDetailSlice'
 import printTypeListReducer from './printTypeListSlice'
 import previewReducer from './previewSlice'
+import queryReducer from './querySlice'
+import statisticReducer from './statisticSlice'
+import reviewReducer from './reviewSlice'
 
 const combinedreducer = combineReducers({
     user: userReducer,
@@ -15,6 +18,9 @@ const combinedreducer = combineReducers({
     queryPrintApplyDetail : queryPrintApplyDetailReducer,
     printTypeList: printTypeListReducer,
     preview: previewReducer,
+    query: queryReducer,
+    statistic: statisticReducer,
+    review: reviewReducer,
 })
 
 export default (state, action) => {

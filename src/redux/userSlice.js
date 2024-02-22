@@ -13,15 +13,10 @@ const userState = {
     isTimeout: true,
     isLogin: false,
     multiUser: [],
-    role: [],
+    role: '',
     loginType: undefined,
     loginTime: undefined,
     lastAccessTime: undefined,
-    listCommonUser: undefined,
-    listUnitMember: undefined,
-    listQueryUser: undefined,
-    listOrganization: [],
-    listEmployee: [],
 }
 
 const userSlice = createSlice({
