@@ -50,6 +50,10 @@ const MaintainPrintType = () => {
     },[action])
 
     const handleUpdateType = () => {
+        if(typeName === ''){
+            alert('類別名稱不得為空')
+            return
+        }
         let input = {
             type: printType,
             name: typeName,
@@ -60,6 +64,10 @@ const MaintainPrintType = () => {
         dispatch(UpdateTypeAction(input))
     }
     const handleInsertType = () => {
+        if(typeName === ''){
+            alert('請輸入新增類別')
+            return
+        }
         let input = {
             name: typeName,
             success: () =>{
@@ -89,7 +97,11 @@ const MaintainPrintType = () => {
                             })}
                         </Select>    
                     }  
-                    <input value={typeName} onChange={e => setTypeName(e.target.value)}/>          
+                    {
+                        (action === '調整' || action === '新增') &&
+                    
+                        <input value={typeName} onChange={e => setTypeName(e.target.value)}/>          
+                    }
             </div>
             <div className="button-content">
                 {

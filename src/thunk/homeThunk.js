@@ -56,16 +56,11 @@ import { setPreview, reset as resetPreview } from "../redux/previewSlice"
     }
   }
 
-  export const RevokeAction = (formNo, opinion) => async dispatch => {    
+  export const RevokeAction = (payload) => async dispatch => {    
     try{
-      let input = {
-        formNo : formNo,
-        opinion : opinion,
-      }
-
+      const { success, ...input } = payload
       await AuthPost('/home/revoke', input)      
-      alert('撤銷成功')
-      
+      success()     
     }
     catch(error){
       dispatch(setShowAlert(error))
@@ -75,7 +70,6 @@ import { setPreview, reset as resetPreview } from "../redux/previewSlice"
   export const ApplyPrintApplyAction = (payload) => async dispatch => {    
     try{
       const { success, ...input } = payload
-      console.log(input)
       await AuthPost('/home/apply', input)     
       success()
     }

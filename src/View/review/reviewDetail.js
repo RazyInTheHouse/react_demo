@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Table from "../../module/table";
 import Layout from "../../module/layout";
-import { QueryPrintApplyDetailAction } from "../../thunk/homeThunk";
-import { CompleteAction, SendBackAction } from "../../thunk/reviewThunk";
+import { CompleteAction, SendBackAction, QueryPrintApplyDetailAction } from "../../thunk/reviewThunk";
 import { useLocationState } from "../../component/link";
 import SignPopup from "../../module/signPopup";
 import { useNavigate } from "react-router-dom";
@@ -20,15 +19,15 @@ const ReviewDetail = () => {
 
 
     useEffect(()=>{
-        dispatch(QueryPrintApplyDetailAction(formData.formNo))
+        dispatch(QueryPrintApplyDetailAction(formData.formNo))       
     },[])
 
     useEffect(()=>{
-        setDetail(printApplyDetail.detail)
+        setDetail(printApplyDetail.detail.map(x => ({
+            ...x,
+            reason: '無',
+        })))
     },[printApplyDetail])
-    useEffect(()=>{
-        console.log(detail)
-    },[detail])
 
     const handleChange = (e, id) => {        
         setDetail(detail.map(x => ({
@@ -40,6 +39,13 @@ const ReviewDetail = () => {
         
         setDetail(detail.map(x => ({
             ...x,
+            reason: x.itemID === id ? e : x.reason,
+        })))
+    }
+    const handleDropdownChange = (e, id) => {
+        setDetail(detail.map(x => ({
+            ...x,
+            select: x.itemID === id ? e : x.select,
             reason: x.itemID === id ? e : x.reason
         })))
     }
@@ -66,6 +72,14 @@ const ReviewDetail = () => {
         dispatch(SendBackAction(input))
     }
     const handleComplete = () => {
+        if(detail.some(x => x.approvedQuantity === '')){
+            alert('請填寫核准數量')
+            return
+        }
+        if(detail.some(x => x.reason === '')){
+            alert('請填寫原因')
+            return
+        }
         let input = {
             details : detail,
             success:() => {
@@ -99,14 +113,24 @@ const ReviewDetail = () => {
                                 <td data-title="單位">{data.itemUnit}</td>
                                 <td data-title="申請數量">{data.applyQuantity}</td>
                                 <td data-title="庫存數量">{data.warehouseQuantity}</td>
-                                <td data-title="核准數量"><input value={data.approvedQuantity===0 ? '': data.approvedQuantity} onChange={(e) => handleChange(e.target.value, data.itemID)}/></td>
-                                <td data-title="原因"><input value={data.reason} onChange={(e) => handleReasonChange(e.target.value, data.itemID)}/></td>
+                                <td data-title="核准數量"><input value={data.approvedQuantity} onChange={(e) => handleChange(e.target.value, data.itemID)}/></td>
+                                <td data-title="原因">
+                                    <select value={data.select} className="item-1"
+                                        onChange={(e) => handleDropdownChange(e.target.value, data.itemID)}
+                                        >   
+                                        <option value={'無'} defaultValue>{'無'}</option>
+                                        <option value={'品項缺貨'}>{'品項缺貨'}</option>
+                                        <option value={'品項已無提供申請'}>{'品項已無提供申請'}</option>
+                                        <option value={'其他'}>{'其他'}</option>                                   
+                                    </select>
+                                    <input value={data.reason === '其他' ? '' : data.reason} onChange={(e) => handleReasonChange(e.target.value, data.itemID)}/>
+                                </td>
                             </tr>
                         )}
                     </tbody>
                 </Table>
                 <div className="button-content">
-                    <button className="btn btn-lg btn-important" onClick={handleShowPopup}>返回申請</button>                    
+                    <button className="btn btn-lg btn-important" onClick={handleShowPopup}>退回申請</button>                    
                     <button className="btn btn-lg btn-important" onClick={handleComplete}>結案</button>
                 </div>    
                 <SignPopup formNo={formData.formNo} isShow={isShowPopup} onClosePopup={handleClosePopup} onSubmit={handleSendBack}/>

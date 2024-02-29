@@ -12,6 +12,7 @@ import StatisticView from './view/statistic/statisticView';
 import ReviewView from './view/review/reviewView';
 import ReviewDetail from './view/review/reviewDetail';
 import MaintainView from './view/maintain/maintainView';
+import StockView from './view/stock/stockView';
 
 const route = [    
     {
@@ -69,6 +70,10 @@ const route = [
     {
         path: '/Maintain',
         component: MaintainView,
+    },
+    {
+        path: '/Stock',
+        component: StockView,
     },
 ]
 

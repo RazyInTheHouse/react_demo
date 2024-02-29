@@ -6,6 +6,9 @@ import Table from '../../module/table';
 import { DatePicker } from '../../component/datePicker';
 import { QueryAction } from '../../thunk/statisticThunk';
 import { reset } from '../../redux/statisticSlice';
+import OrganizationSelector from '../../module/organizationSelector';
+import PrintItemSelector from '../../module/printItemSelector';
+
 
 const List = ({ data }) => {    
     return(
@@ -26,14 +29,31 @@ const StatisticView = () => {
     const queryData = useSelector(s => s.statistic)
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState()
-    const [unitID, setUnitID] = useState('11L010')
+    const [unitID, setUnitID] = useState('')
     const [itemID, setItemID] = useState('')
 
     useEffect(() => {
         dispatch(reset())
     },[])
 
+    const handleStartDateChange = (e) => {
+        setStartDate(e)
+        if(e > endDate){
+            setEndDate(e)
+        }
+    }
+    const handleEndDateChange = (e) => {
+        setEndDate(e)
+        if(e < startDate){
+            setStartDate(e)
+        }
+    }
+
     const handleQuery = () => {
+        if(itemID === '' && unitID === ''){
+            alert('品名名稱及單位名稱需填寫其中一欄')
+            return
+        }
         let input = {
             reviewTimeBegin: startDate,
             reviewTimeEnd: endDate, 
@@ -52,28 +72,36 @@ const StatisticView = () => {
                         <label className="item-form-title form-title">倉庫審核通過日期起</label>
                         <DatePicker initialValue={startDate}
                             className="form-control"
-                            handleCloseCalendar={e => setStartDate(e)}
+                            handleCloseCalendar={handleStartDateChange}
                         />
                     </div>
                     <div className="item-1">
                         <label className="item-form-title form-title">倉庫審核通過日期迄</label>
                         <DatePicker initialValue={endDate}
                             className="form-control"
-                            handleCloseCalendar={e => setEndDate(e)}
+                            handleCloseCalendar={handleEndDateChange}
                         />
                     </div>
                     <div className="item-1">
                         <label className="item-form-title form-title">品名名稱</label>
-                        <DatePicker initialValue={endDate}
+                        <PrintItemSelector 
                             className="form-control"
-                            handleCloseCalendar={e => setEndDate(e)}
+                            constraint={[]}
+                            value={itemID}
+                            onSubmit={item => setItemID(item?.itemID)}
+                            required={false}
+                            disabled={false}
                         />
                     </div>
                     <div className="item-1">
                         <label className="item-form-title form-title">單位名稱</label>
-                        <DatePicker initialValue={endDate}
+                        <OrganizationSelector 
                             className="form-control"
-                            handleCloseCalendar={e => setEndDate(e)}
+                            constraint={[]}
+                            value={unitID}
+                            onSubmit={unit => setUnitID(unit?.unitID)}
+                            required={false}
+                            disabled={false}
                         />
                     </div>
                 </QueryPanel>

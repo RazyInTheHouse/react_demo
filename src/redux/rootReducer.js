@@ -9,6 +9,7 @@ import previewReducer from './previewSlice'
 import queryReducer from './querySlice'
 import statisticReducer from './statisticSlice'
 import reviewReducer from './reviewSlice'
+import stockReducer from './stockSlice'
 
 const combinedreducer = combineReducers({
     user: userReducer,
@@ -21,6 +22,7 @@ const combinedreducer = combineReducers({
     query: queryReducer,
     statistic: statisticReducer,
     review: reviewReducer,
+    stock: stockReducer,
 })
 
 export default (state, action) => {

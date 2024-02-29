@@ -12,6 +12,7 @@ import SignPopup from "../../module/signPopup";
 const List = ({ data }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const { empNo } = useSelector(s => s.user)
     const status = useSelector(s => s.parameter.filter(m => m.classID === 'Status')[0])   
     const [isShowPopup, setIsShowPopup] = useState()
 
@@ -27,8 +28,17 @@ const List = ({ data }) => {
         navigate('/printApplyDetail', { state: { formNo: data.formNo, isEdit: true } })
     }
 
-    const handleRevoke = (formNo, opinion) => {            
-        dispatch(RevokeAction(formNo, opinion))
+    const handleRevoke = (formNo, opinion) => { 
+        let input = {
+            formNo,
+            opinion,
+            success:() => {
+                alert('撤銷成功')
+                dispatch(QueryAppliedFormsAction(empNo))
+                handleClosePopup()
+            }
+        }           
+        dispatch(RevokeAction(input))
     }
     return(
         <React.Fragment>

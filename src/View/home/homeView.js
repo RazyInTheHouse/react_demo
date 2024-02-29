@@ -107,13 +107,14 @@ const HomeView = () => {
                                             )
                                         }        
                                     </tbody>
-                                </Table>                       
+                                </Table>      
+                                <div className="button-content">
+                                    <button className="btn btn-lg btn-important" onClick={handleSaveTemp}>暫存</button>
+                                    <button className="btn btn-lg btn-important" onClick={handlePreview}>預覽及送單</button>
+                                </div>                 
                             </div>
                         }
-                        <div className="button-content">
-                            <button className="btn btn-lg btn-important" onClick={handleSaveTemp}>暫存</button>
-                            <button className="btn btn-lg btn-important" onClick={handlePreview}>預覽及送單</button>
-                        </div>
+                        
                     </div>
                 </div>
             </div>                                  

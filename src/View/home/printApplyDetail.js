@@ -42,10 +42,17 @@ const PrintApplyDetail = () => {
     },[printApplyDetail])
 
     const handleCheckDeleted = (sn, isChecked) => {
-        setDetail(detail.map((x) => ({
-            ...x,
-            isDelete: x.sn === sn ? isChecked : x.isDelete
-        })))
+        if(detail.filter(x => !x.isDelete).length === 1 ){
+            alert('至少保留一品項')
+            return
+        }
+        else{
+            console.log('hi')
+            setDetail(detail.map((x) => ({
+                ...x,
+                isDelete: x.sn === sn ? isChecked : x.isDelete
+            })))
+        }              
     }
 
     const handleCheckQuantity = (sn, quantity) => {

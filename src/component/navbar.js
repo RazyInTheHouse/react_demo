@@ -49,6 +49,7 @@ const Navbar = () => {
                                 <React.Fragment>                                  
                                     <Link to="/maintain" onClick={handleCloseSidebar}>印刷品項維護</Link>                                                                        
                                     <Link to="/review" onClick={handleCloseSidebar}>倉庫審核作業</Link>
+                                    <Link to="/stock" onClick={handleCloseSidebar}>庫存作業</Link>
                                 </React.Fragment>    
                             }
                         </div>

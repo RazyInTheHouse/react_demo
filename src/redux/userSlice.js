@@ -17,6 +17,9 @@ const userState = {
     loginType: undefined,
     loginTime: undefined,
     lastAccessTime: undefined,
+    listOrganization:[],
+    listOrganizeData:[],
+    address:'',
 }
 
 const userSlice = createSlice({
