@@ -10,6 +10,7 @@ import { QueryAction } from '../../thunk/queryThunk';
 import { reset } from '../../redux/querySlice';
 import OrganizationSelector from '../../module/organizationSelector';
 import Select from '../../component/select';
+import ReactPaginate from 'react-paginate';
 
 
 const List = ({ data }) => {    
@@ -34,6 +35,16 @@ const QueryView = () => {
     const [endDate, setEndDate] = useState()
     const [unitID, setUnitID] = useState('')
     const [orderBy, setOrderBy] = useState('')
+    const [itemOffset, setItemOffset] = useState(0);
+    const itemPerPage = 5
+    const endOffset = itemOffset + itemPerPage;
+    const currentItems = queryData.data.slice(itemOffset, endOffset);
+    const pageCount = Math.ceil(queryData.data.length / itemPerPage);
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemPerPage) % queryData.data.length;
+        setItemOffset(newOffset);
+    };
 
     useEffect(() => {
         dispatch(reset())
@@ -53,8 +64,8 @@ const QueryView = () => {
     }
 
     const handleQuery = () => {
-        if(orderBy === ''){
-            alert('請選擇排序條件')
+        if(startDate === '' || startDate === null){
+            alert('請輸入必要條件')
             return
         }
         let input = {
@@ -91,7 +102,7 @@ const QueryView = () => {
                             constraint={[]}
                             value={unitID}
                             onSubmit={unit => setUnitID(unit?.unitID)}
-                            required={true}
+                            required={false}
                             disabled={false}
                         />
                     </div>
@@ -120,11 +131,30 @@ const QueryView = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {queryData.data.map((para, index)=>
-                            <List data={para} key={index} />
-                        )}
+                       {
+                         currentItems.map((para, index) => 
+                         <List data={para} key={index}/>
+                        )
+                       }                                               
                     </tbody>
                 </Table>
+                {
+                    pageCount > 2 &&
+                    <ReactPaginate
+                        breakLabel="..."
+                        nextLabel="下一頁 >"
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={5}
+                        pageCount={pageCount}
+                        previousLabel="< 上一頁"
+                        renderOnZeroPageCount={null}
+                        containerClassName={"pagination"}
+                        previousLinkClassName={"pagination__link"}
+                        nextLinkClassName={"pagination__link"}
+                        disabledClassName={"pagination__link--disabled"}
+                        activeClassName={"pagination__link--active"}
+                    />
+                }
             </div>
         </Layout>
     )

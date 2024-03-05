@@ -133,7 +133,7 @@ const PrintApplyDetail = () => {
                         <div className="new-row">
                             <label className="item-form-title form-title">申請人</label>
                             <div className="item-full form-input">
-                                <input type="text" className="btn" value={printApplyDetail.applyEmpName} disabled/>
+                                <input type="text" className="btn btn-text" value={printApplyDetail.applyEmpName} disabled/>
                             </div>
                         </div>
                     </div>
@@ -141,7 +141,7 @@ const PrintApplyDetail = () => {
                         <div className="new-row">
                             <label className="item-form-title form-title">寄送地址</label>
                             <div className="item-full form-input">
-                                <input type="text" className="btn" value={address} onChange={e => setAddress(e.target.value)} disabled={!formData.isEdit}/>
+                                <input type="text" className="btn btn-text" value={address} onChange={e => setAddress(e.target.value)} disabled={!formData.isEdit}/>
                             </div>
                         </div>
                     </div>

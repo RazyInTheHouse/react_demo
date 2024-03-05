@@ -2,6 +2,7 @@ import { AuthPost } from "../hook/useApi";
 import { setShowAlert } from "../redux/globalSlice";
 import { setData } from "../redux/userSlice";
 
+//組織
 export const QueryOrganizationAction = (payload) => async dispatch => {
     try{
       const { unitID, input } = payload
@@ -16,6 +17,7 @@ export const QueryOrganizationAction = (payload) => async dispatch => {
       dispatch(setShowAlert(error))
     }
 }
+//組織（地址用）
 export const QueryOrganizeDataAction = (payload) => async dispatch => {
   try{
     const { unitID, input } = payload

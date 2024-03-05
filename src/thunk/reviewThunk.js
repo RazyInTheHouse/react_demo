@@ -7,7 +7,7 @@ export const QueryAction = (payload) => async dispatch => {
     dispatch(setShowLoading(true))
     try{
       let input = {
-        startTimeBegin: payload.reviewTimeBegin,
+        startTimeBegin: payload.startTimeBegin,
         startTimeEnd: payload.startTimeEnd,
         unitID: payload.unitID,
       }
@@ -30,7 +30,7 @@ export const QueryPrintApplyDetailAction = (formNo) => async dispatch => {
     }
     const res = await AuthPost('/review/querydetail', input)
     dispatch(reset())
-    dispatch(setDetail({res}))
+    dispatch(setDetail(res))
   }
   catch(error){
     dispatch(setShowAlert(error))

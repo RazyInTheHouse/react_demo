@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Table from "../../module/table";
 import Layout from "../../module/layout";
-import { QueryPrintApplyDetailAction, UpdatePrintApplyAction, SendBackAction, SignAction } from "../../thunk/homeThunk";
+import { QueryPrintApplyDetailAction } from "../../thunk/homeThunk";
 import { useLocationState } from "../../component/link";
+import ReactPaginate from 'react-paginate';
 
 
 const List = ({ data }) => {
@@ -27,6 +28,16 @@ const QueryDetail = () => {
     const [detail, setDetail] = useState(printApplyDetail.detail)
     const [address, setAddress] = useState(printApplyDetail.address)
     const formData = useLocationState() 
+    const [itemOffset, setItemOffset] = useState(0);
+    const itemPerPage = 5
+    const endOffset = itemOffset + itemPerPage;
+    const currentItems = detail.slice(itemOffset, endOffset);
+    const pageCount = Math.ceil(detail.length / itemPerPage);
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemPerPage) % detail.length;
+        setItemOffset(newOffset);
+    };
 
 
     useEffect(()=>{
@@ -46,7 +57,7 @@ const QueryDetail = () => {
                         <div className="new-row">
                             <label className="item-form-title form-title">申請人</label>
                             <div className="item-full form-input">
-                                <input type="text" className="btn" value={printApplyDetail.applyEmpName} disabled/>
+                                <input type="text" className="btn btn-text" value={printApplyDetail.applyEmpName} disabled/>
                             </div>
                         </div>
                     </div>
@@ -54,7 +65,7 @@ const QueryDetail = () => {
                         <div className="new-row">
                             <label className="item-form-title form-title">寄送地址</label>
                             <div className="item-full form-input">
-                                <input type="text" className="btn" value={address} onChange={e => setAddress(e.target.value)} disabled={!formData.isEdit}/>
+                                <input type="text" className="btn btn-text" value={address} onChange={e => setAddress(e.target.value)} disabled={!formData.isEdit}/>
                             </div>
                         </div>
                     </div>
@@ -74,11 +85,28 @@ const QueryDetail = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {detail.map((data, index)=>
+                        {currentItems.map((data, index)=>
                             <List key={index} data={data} />
                         )}
                     </tbody>
                 </Table>
+                {
+                    pageCount > 2 &&
+                    <ReactPaginate
+                        breakLabel="..."
+                        nextLabel="下一頁 >"
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={5}
+                        pageCount={pageCount}
+                        previousLabel="< 上一頁"
+                        renderOnZeroPageCount={null}
+                        containerClassName={"pagination"}
+                        previousLinkClassName={"pagination__link"}
+                        nextLinkClassName={"pagination__link"}
+                        disabledClassName={"pagination__link--disabled"}
+                        activeClassName={"pagination__link--active"}
+                    />
+                }
             </div> 
         </Layout>   
     )

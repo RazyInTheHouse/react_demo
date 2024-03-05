@@ -76,6 +76,7 @@ const PrintItemSelectorPopup = (props) => {
                         <div className="tab">
                             <div className="tab-nav">
                                 <div className={`tab-nav-item ${activeTab === 'select' ? 'active' : ''}`} onClick={() => setActiveTab('select')}>{`選擇品項`}</div>
+                                <div className={`tab-nav-item ${activeTab === 'selected' ? 'active' : ''}`} onClick={() => setActiveTab('selected')}>{`已設定品項`}</div>
                             </div>
                             <div className="tab-body">
                                 {activeTab === 'select' &&
@@ -111,6 +112,28 @@ const PrintItemSelectorPopup = (props) => {
                                                         <td>{m.itemName}</td>
                                                     </tr>
                                                 )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                                {activeTab === 'selected' &&
+                                    <div className="tab-content">
+                                        <table className="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>品項編號</th>
+                                                    <th>品項名稱</th>
+                                                    <th>刪除</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {currentObject && 
+                                                    <tr>
+                                                        <td>{currentObject.itemID}</td>
+                                                        <td>{currentObject.itemName}</td>
+                                                        <td><button onClick={() => handleSetObject(false, currentObject)} className="btn btn-default btn-shadow">刪除</button></td>
+                                                    </tr>
+                                                }
                                             </tbody>
                                         </table>
                                     </div>

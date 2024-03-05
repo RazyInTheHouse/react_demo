@@ -100,7 +100,7 @@ const MaintainPrintType = () => {
                     {
                         (action === '調整' || action === '新增') &&
                     
-                        <input value={typeName} onChange={e => setTypeName(e.target.value)}/>          
+                        <input className="form-control form-control-3-1" value={typeName} onChange={e => setTypeName(e.target.value)}/>          
                     }
             </div>
             <div className="button-content">
@@ -120,9 +120,11 @@ const MaintainPrintItem = () => {
     const printTypeList = useSelector(s => s.printTypeList)
     const [printType, setPrintType] = useState()
     const [printItem, setPrintItem] = useState()
+    const [disabled, setDisabled] = useState(false)
+
     const createItem = () => {
         let item = {
-            index: new Date().getTime,
+            index: (new Date()).getTime(),
             itemID:'',
             itemName:'',
             itemUnit:'',
@@ -180,6 +182,11 @@ const MaintainPrintItem = () => {
 
     const handleAddItem = () => {
         setPrintItem(prev => [...prev, createItem()])
+        setDisabled(true)
+    }
+    const handleRemoveItem = (index) => {
+        console.log(index)
+        setPrintItem(prev => prev.filter(m => m.index !== index))
     }
 
     const handleUpdateItem = () => {
@@ -247,12 +254,12 @@ const MaintainPrintItem = () => {
                             {   
                                 printItem.map((m, i)=>
                                     <tr key={i} className="first-row last-row">
-                                        <td data-title="品名編號"><input value={m.itemID} disabled={m.index === undefined} onChange={(e) => { handleChangeID(m.index, e.target.value) }}/></td>
-                                        <td data-title="中文名稱"><input value={m.itemName} onChange={(e) => { handleChangeName(m.itemID, e.target.value) }}/></td>
-                                        <td data-title="單位"><input value={m.itemUnit} onChange={(e) => { handleChangeUnit(m.itemID, e.target.value) }}/></td>
-                                        <td data-title="架號"><input value={m.shelfID} onChange={(e) => { handleChangeShelf(m.itemID, e.target.value) }}/></td>
-                                        <td data-title="類型"><input value={m.printType} onChange={(e) => { handleChangeType(m.itemID, e.target.value) }}/></td>
-                                        <td data-title="刪除" className="check"><input type="checkbox" onChange={(e) => { handleCheckDeleted(m.itemID, e.target.checked) }}/></td>
+                                        <td data-title="品名編號"><input  className="form-control form-control-3-1" value={m.itemID} disabled={m.index === undefined} onChange={(e) => { handleChangeID(m.index, e.target.value) }}/></td>
+                                        <td data-title="中文名稱"><input className="form-control" value={m.itemName} onChange={(e) => { handleChangeName(m.itemID, e.target.value) }}/></td>
+                                        <td data-title="單位"><input className="form-control form-control-3-1" value={m.itemUnit} onChange={(e) => { handleChangeUnit(m.itemID, e.target.value) }}/></td>
+                                        <td data-title="架號"><input className="form-control form-control-3-1" value={m.shelfID} onChange={(e) => { handleChangeShelf(m.itemID, e.target.value) }}/></td>
+                                        <td data-title="類型"><input className="form-control form-control-3-1" value={m.printType} onChange={(e) => { handleChangeType(m.itemID, e.target.value) }}/></td>
+                                        <td data-title="刪除" className="check"><input type="checkbox" onChange={(e) => {m.index === undefined ? handleCheckDeleted(m.itemID, e.target.checked) : handleRemoveItem(m.index) }}/></td>
                                     </tr>                                          
                                 )
                             }        

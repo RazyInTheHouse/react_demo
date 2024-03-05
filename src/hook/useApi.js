@@ -54,7 +54,7 @@ import loginTypeEnum from '../enum/loginType'
                 throw err.response.data
             }
         }
-    };
+    };   
 
     export const AuthGet = async (url) => {
         const accessToken = localStorage.getItem('accessToken')
@@ -112,3 +112,60 @@ export function useFlowLogin() {
     }
     return { isQuery, login }
 }  
+
+export const AuthDownLoad = async (url, input) => {
+    const accessToken = localStorage.getItem('accessToken')
+    const axiosSetting =
+    {
+        baseURL: config.HOST,
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+        },
+        timeout: 30000,
+        responseType: 'blob',
+    }
+    try {
+        const res = await axios.post(url, input, axiosSetting);
+        const fileName = dispositionParse(res.headers["content-disposition"])
+        downloadFile(res.data, fileName)
+        
+    } catch (err) {
+        if (!err.response) {
+            if (err.message.includes("timeout")) {
+                throw '請求逾時，請稍後再試'
+            } else if (err.toString().includes("Network Error")) {
+                throw '網路異常，請稍後再試'
+            } else {
+                throw err.message
+            }
+        }
+
+        if (err.response.status === 401) {
+            throw '您尚未登入，或您的登入已逾時，請重新登入後再試'
+        } else {
+            throw err.response.data
+        }
+    }
+};
+
+const dispositionParse = (disposition) => {
+    const filenameRegex = /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/;
+    const matches = filenameRegex.exec(disposition)
+    const filename = matches != null && matches[3] ? matches[3] : '';
+    const decodeFilename = decodeURI(filename)
+    return decodeFilename
+}
+
+const downloadFile = (data, filename) => {
+    if(window.navigator.msSaveOrOpenBlob){
+        window.navigator.msSaveOrOpenBlob(new Blob([data]), filename)
+    }else{
+        const downloadUrl = window.URL.createObjectURL(new Blob([data]))
+        const link = document.createElement('a')
+        link.href = downloadUrl;
+        link.setAttribute('download', filename);
+        link.click();
+        link.remove();
+    }
+}

@@ -1,4 +1,4 @@
-import { AuthPost } from "../hook/useApi";
+import { AuthPost, AuthDownLoad } from "../hook/useApi";
 import { setShowAlert, setShowLoading } from "../redux/globalSlice";
 import { setData } from "../redux/statisticSlice";
 
@@ -10,9 +10,14 @@ export const QueryAction = (payload) => async dispatch => {
         reviewTimeEnd: payload.reviewTimeEnd,
         itemID: payload.itemID,
         unitID: payload.unitID,
+        isExport: payload.isExport,
       }
-      const data = await AuthPost('/statistic/query', input)
-      dispatch(setData({data}))
+      if(input.isExport){
+        await AuthDownLoad('/statistic/query', input)
+      } else{
+        const data = await AuthPost('/statistic/query', input)
+        dispatch(setData({data}))
+      }
     }
     catch(error){
       dispatch(setShowAlert(error))

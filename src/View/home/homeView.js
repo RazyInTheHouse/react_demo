@@ -51,6 +51,10 @@ const HomeView = () => {
     }
 
     const handleSaveTemp = () =>{
+        if(tempList.length === 0){
+            alert('請輸入申請數量')
+            return
+        }
         dispatch(SaveTempAction(tempList))
     }
 
@@ -102,7 +106,7 @@ const HomeView = () => {
                                                     <td data-title="品名編號">{m.itemID}</td>
                                                     <td data-title="中文名稱">{m.itemName}</td>
                                                     <td data-title="單位">{m.itemUnit}</td>
-                                                    <td data-title="申請數量"><input value={m.applyQuantity===0 ? '': m.applyQuantity} onChange={(e) => handleChange(e.target.value, m.itemID)}/></td>
+                                                    <td data-title="申請數量"><input className="item-1 form-control" value={m.applyQuantity===0 ? '': m.applyQuantity} onChange={(e) => handleChange(e.target.value, m.itemID)}/></td>
                                                 </tr>                                          
                                             )
                                         }        

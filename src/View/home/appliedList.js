@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Table from "../../module/table";
 import Layout from "../../module/layout";
 import { QueryAppliedFormsAction, RevokeAction } from "../../thunk/homeThunk";
-import { reset } from "../../redux/homeSlice";
 import { ToDate } from "../../utility/datetimeFormat";
 import { Link } from "react-router-dom";
 import SignPopup from "../../module/signPopup";
@@ -29,6 +28,10 @@ const List = ({ data }) => {
     }
 
     const handleRevoke = (formNo, opinion) => { 
+        if(opinion === ''){
+            alert('請填寫退回原因')
+            return
+        }
         let input = {
             formNo,
             opinion,

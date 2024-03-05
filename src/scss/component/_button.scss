@@ -22,6 +22,11 @@
         cursor: not-allowed;
     }
 
+    &.btn-text {
+        width: 100%;
+        opacity: inherit;
+    }
+
     &.btn-important,
     &.btn-primary {
         background-color: #fa4d56;

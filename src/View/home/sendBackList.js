@@ -28,7 +28,20 @@ const List = ({ data }) => {
     }
 
     const handleRevoke = (formNo, opinion) => {            
-        dispatch(RevokeAction(formNo, opinion))
+        if(opinion === ''){
+            alert('請填寫退回原因')
+            return
+        }
+        let input = {
+            formNo,
+            opinion,
+            success:() => {
+                alert('撤銷成功')
+                dispatch(QuerySendBackFormsAction())
+                handleClosePopup()
+            }
+        }           
+        dispatch(RevokeAction(input))
     }
 
     return(

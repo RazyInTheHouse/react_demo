@@ -22,13 +22,6 @@ const ReviewDetail = () => {
         dispatch(QueryPrintApplyDetailAction(formData.formNo))       
     },[])
 
-    useEffect(()=>{
-        setDetail(printApplyDetail.detail.map(x => ({
-            ...x,
-            reason: '無',
-        })))
-    },[printApplyDetail])
-
     const handleChange = (e, id) => {        
         setDetail(detail.map(x => ({
             ...x,
@@ -46,7 +39,7 @@ const ReviewDetail = () => {
         setDetail(detail.map(x => ({
             ...x,
             select: x.itemID === id ? e : x.select,
-            reason: x.itemID === id ? e : x.reason
+            reason: x.itemID === id ? (e === '無' ? '' : e ) : x.reason
         })))
     }
     const handleShowPopup = () => {
@@ -76,8 +69,8 @@ const ReviewDetail = () => {
             alert('請填寫核准數量')
             return
         }
-        if(detail.some(x => x.reason === '')){
-            alert('請填寫原因')
+        if(detail.some(x => x.approvedQuantity === 0 && (x.reason === '' || x.reason === null))){
+            alert('請填寫核准數量0的原因')
             return
         }
         let input = {
@@ -87,7 +80,7 @@ const ReviewDetail = () => {
                 navigate('/review')
             }
         }
-        dispatch(CompleteAction(input))
+        //dispatch(CompleteAction(input))
     }
 
     return(
@@ -113,9 +106,9 @@ const ReviewDetail = () => {
                                 <td data-title="單位">{data.itemUnit}</td>
                                 <td data-title="申請數量">{data.applyQuantity}</td>
                                 <td data-title="庫存數量">{data.warehouseQuantity}</td>
-                                <td data-title="核准數量"><input value={data.approvedQuantity} onChange={(e) => handleChange(e.target.value, data.itemID)}/></td>
+                                <td data-title="核准數量"><input className="form-control form-control-3-1" value={data.approvedQuantity} onChange={(e) => handleChange(e.target.value, data.itemID)}/></td>
                                 <td data-title="原因">
-                                    <select value={data.select} className="item-1"
+                                    <select value={data.select} className="item-1 form-control"
                                         onChange={(e) => handleDropdownChange(e.target.value, data.itemID)}
                                         >   
                                         <option value={'無'} defaultValue>{'無'}</option>
@@ -123,7 +116,7 @@ const ReviewDetail = () => {
                                         <option value={'品項已無提供申請'}>{'品項已無提供申請'}</option>
                                         <option value={'其他'}>{'其他'}</option>                                   
                                     </select>
-                                    <input value={data.reason === '其他' ? '' : data.reason} onChange={(e) => handleReasonChange(e.target.value, data.itemID)}/>
+                                    <input className="form-control" value={data.reason} disabled={data.select !== '其他'} onChange={(e) => handleReasonChange(e.target.value, data.itemID)}/>
                                 </td>
                             </tr>
                         )}

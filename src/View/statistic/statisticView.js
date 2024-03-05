@@ -8,6 +8,7 @@ import { QueryAction } from '../../thunk/statisticThunk';
 import { reset } from '../../redux/statisticSlice';
 import OrganizationSelector from '../../module/organizationSelector';
 import PrintItemSelector from '../../module/printItemSelector';
+import ReactPaginate from 'react-paginate';
 
 
 const List = ({ data }) => {    
@@ -31,6 +32,17 @@ const StatisticView = () => {
     const [endDate, setEndDate] = useState()
     const [unitID, setUnitID] = useState('')
     const [itemID, setItemID] = useState('')
+    const [itemOffset, setItemOffset] = useState(0);
+    const itemPerPage = 2
+    const endOffset = itemOffset + itemPerPage;
+    const currentItems = queryData.data.slice(itemOffset, endOffset);
+    const pageCount = Math.ceil(queryData.data.length / itemPerPage);
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemPerPage) % queryData.data.length;
+        setItemOffset(newOffset);
+    };
+
 
     useEffect(() => {
         dispatch(reset())
@@ -50,7 +62,7 @@ const StatisticView = () => {
     }
 
     const handleQuery = () => {
-        if(itemID === '' && unitID === ''){
+        if((itemID === '' || itemID === undefined ) && (unitID === '' || unitID === undefined )){
             alert('品名名稱及單位名稱需填寫其中一欄')
             return
         }
@@ -59,6 +71,22 @@ const StatisticView = () => {
             reviewTimeEnd: endDate, 
             itemID: itemID,
             unitID: unitID,
+            isExport: false,
+        }
+        dispatch(QueryAction(input))
+    }
+
+    const handleExport = () =>{
+        if(queryData.data.length === 0){
+            alert('請先查詢資料')
+            return
+        }
+        let input = {
+            reviewTimeBegin: startDate,
+            reviewTimeEnd: endDate, 
+            itemID: itemID,
+            unitID: unitID,
+            isExport: true,
         }
         dispatch(QueryAction(input))
     }
@@ -105,6 +133,8 @@ const StatisticView = () => {
                         />
                     </div>
                 </QueryPanel>
+
+                <button className="btn btn-info" onClick={handleExport}>匯出</button>
                 <div className="dotted-line"></div>
                 <Table>
                     <thead>
@@ -117,11 +147,28 @@ const StatisticView = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {queryData.data.map((para, index)=>
+                        {currentItems.map((para, index)=>
                             <List data={para} key={index} />
                         )}
                     </tbody>
                 </Table>
+                {
+                    pageCount > 2 &&
+                    <ReactPaginate
+                        breakLabel="..."
+                        nextLabel="下一頁 >"
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={5}
+                        pageCount={pageCount}
+                        previousLabel="< 上一頁"
+                        renderOnZeroPageCount={null}
+                        containerClassName={"pagination"}
+                        previousLinkClassName={"pagination__link"}
+                        nextLinkClassName={"pagination__link"}
+                        disabledClassName={"pagination__link--disabled"}
+                        activeClassName={"pagination__link--active"}
+                    />
+                }       
             </div>
         </Layout>
     )

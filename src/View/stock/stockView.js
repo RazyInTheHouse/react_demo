@@ -47,9 +47,6 @@ const StockManage = () => {
     useEffect(()=>{
         setPrintItem(printTypeList.find(m => m.type === printType)?.items)
     },[printType])
-    useEffect(()=>{
-        console.log(printItem)
-    },[printItem])
 
     const handleChageIncrease = (value, itemID) => {
         setPrintItem(prev => prev.map((x) => ({
@@ -111,8 +108,8 @@ const StockManage = () => {
                                         <td data-title="中文名稱">{m.itemName}</td>
                                         <td data-title="單位">{m.itemUnit}</td>
                                         <td data-title="庫存數量">{m.quantity}</td>
-                                        <td data-title="新增數量"><input value={increaseQuantity} onChange={e => handleChageIncrease(e.target.value, m.itemID)}/></td>
-                                        <td data-title="刪除數量"><input value={deleteQuantity} onChange={e => handleChageDelete(e.target.value, m.itemID)}/></td>
+                                        <td data-title="新增數量"><input className="form-control form-control-3-1" value={increaseQuantity} onChange={e => handleChageIncrease(e.target.value, m.itemID)}/></td>
+                                        <td data-title="刪除數量"><input className="form-control form-control-3-1" value={deleteQuantity} onChange={e => handleChageDelete(e.target.value, m.itemID)}/></td>
                                     </tr>                                          
                                 )
                             }        
@@ -142,10 +139,10 @@ const StockQuery = () => {
                 <QueryPanel onQuery={handleQuery}>
                     <div className="item-1">
                         <label className="item-form-title form-title">品名名稱</label>
-                        <input value={input} onChange={e => setInput(e.target.value)}/>
+                        <input className="form-control form-control-3-1" value={input} onChange={e => setInput(e.target.value)}/>
                     </div>
                 </QueryPanel>
-                {   queryItem !== undefined &&
+                {   queryItem.data.length !== 0 &&
                         <Table>
                             <thead>
                                 <tr>
