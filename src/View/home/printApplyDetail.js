@@ -42,17 +42,12 @@ const PrintApplyDetail = () => {
     },[printApplyDetail])
 
     const handleCheckDeleted = (sn, isChecked) => {
-        if(detail.filter(x => !x.isDelete).length === 1 ){
-            alert('至少保留一品項')
-            return
-        }
-        else{
-            console.log('hi')
-            setDetail(detail.map((x) => ({
-                ...x,
-                isDelete: x.sn === sn ? isChecked : x.isDelete
-            })))
-        }              
+
+        setDetail(detail.map((x) => ({
+            ...x,
+            isDelete: x.sn === sn ? isChecked : x.isDelete
+        })))
+                   
     }
 
     const handleCheckQuantity = (sn, quantity) => {
@@ -71,12 +66,10 @@ const PrintApplyDetail = () => {
     }
 
     const handleSubmit = () => {
-        const newDetail = printApplyDetail.detail
-        if(newDetail === detail){
-            alert('品項無變更')
+        if(detail.every(m => m.isDelete)){
+            alert('至少保留一品項')
             return
         }
-        
         let request = {
             formNo: printApplyDetail.formNo,
             status: printApplyDetail.status,
@@ -166,7 +159,7 @@ const PrintApplyDetail = () => {
                                 <td data-title="品名編號">{data.itemID}</td>
                                 <td data-title="中文名稱">{data.itemName}</td>
                                 <td data-title="單位">{data.itemUnit}</td>
-                                <td data-title="調整數量"><input value={data.applyQuantity} onChange={(e) => { handleCheckQuantity(data.sn, e.target.value) }}/></td>
+                                <td data-title="調整數量"><input className="form-control" value={data.applyQuantity} onChange={(e) => { handleCheckQuantity(data.sn, e.target.value) }}/></td>
                                 <td data-title="刪除" className="check"><input type="checkbox" onChange={(e) => { handleCheckDeleted(data.sn, e.target.checked) }}/></td>
                             </tr> 
                                 :
@@ -175,13 +168,14 @@ const PrintApplyDetail = () => {
                     </tbody>
                 </Table>
             </div> 
-            {  
-                formData.isEdit &&
-                <div className="button-content">
-                    <BackButton className={`btn-lg btn-important`}/>
+            <div className="button-content">
+                <BackButton className={`btn-lg btn-important`}/>
+                {  
+                    formData.isEdit &&
                     <button className="btn btn-lg btn-important" onClick={handleSubmit}>確認並送出申請單</button>
-                </div>                      
-            }
+                }
+            </div>
+
             {  
                 formData.isManager &&
                 <div className="button-content">

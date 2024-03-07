@@ -22,6 +22,10 @@ const ReviewDetail = () => {
         dispatch(QueryPrintApplyDetailAction(formData.formNo))       
     },[])
 
+    useEffect(()=>{
+        setDetail(printApplyDetail.detail)
+    },[printApplyDetail])
+
     const handleChange = (e, id) => {        
         setDetail(detail.map(x => ({
             ...x,
@@ -80,7 +84,7 @@ const ReviewDetail = () => {
                 navigate('/review')
             }
         }
-        //dispatch(CompleteAction(input))
+        dispatch(CompleteAction(input))
     }
 
     return(

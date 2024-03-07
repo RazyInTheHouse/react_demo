@@ -43,11 +43,11 @@ const Navbar = () => {
                         <div className="nav-container">
                             <Link to="/" onClick={handleCloseSidebar}>首頁</Link>                            
                             <Link to="/query" onClick={handleCloseSidebar}>申請案件查詢</Link>                            
-                            <Link to="/statistic" onClick={handleCloseSidebar}>申請數量統計</Link> 
                             {
                                ( role === roleEnum.Admin || role === roleEnum.Warehouse ) && 
                                 <React.Fragment>                                  
-                                    <Link to="/maintain" onClick={handleCloseSidebar}>印刷品項維護</Link>                                                                        
+                                    <Link to="/maintain" onClick={handleCloseSidebar}>印刷品項維護</Link>     
+                                    <Link to="/statistic" onClick={handleCloseSidebar}>申請數量統計</Link> 
                                     <Link to="/review" onClick={handleCloseSidebar}>倉庫審核作業</Link>
                                     <Link to="/stock" onClick={handleCloseSidebar}>庫存作業</Link>
                                 </React.Fragment>    

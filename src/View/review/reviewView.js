@@ -9,6 +9,7 @@ import { QueryAction } from '../../thunk/reviewThunk';
 import { reset } from '../../redux/reviewSlice';
 import { ToDate } from "../../utility/datetimeFormat";
 import OrganizationSelector from '../../module/organizationSelector';
+import ReactPaginate from 'react-paginate';
 
 
 const List = ({ data }) => {    
@@ -31,6 +32,16 @@ const ReviewView = () => {
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState()
     const [unitID, setUnitID] = useState('')
+    const [itemOffset, setItemOffset] = useState(0);
+    const itemPerPage = 5
+    const endOffset = itemOffset + itemPerPage;
+    const currentItems = queryData.data.slice(itemOffset, endOffset);
+    const pageCount = Math.ceil(queryData.data.length / itemPerPage);
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemPerPage) % queryData.data.length;
+        setItemOffset(newOffset);
+    };
 
     useEffect(() => {
         dispatch(reset())
@@ -61,6 +72,7 @@ const ReviewView = () => {
      return (
         <Layout>
             <h1 className="h1 border-left">倉庫審核作業</h1>
+            <h3>待簽核表單{queryData.data.length}件</h3>
             <div className="panel panel-default">
                 <QueryPanel onQuery={handleQuery}>
                     <div className="item-1">
@@ -101,11 +113,28 @@ const ReviewView = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {queryData.data.map((para, index)=>
+                        {currentItems.map((para, index)=>
                             <List data={para} key={index} />
                         )}
                     </tbody>
                 </Table>
+                {
+                    pageCount >= 2 &&
+                    <ReactPaginate
+                        breakLabel="..."
+                        nextLabel="下一頁 >"
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={5}
+                        pageCount={pageCount}
+                        previousLabel="< 上一頁"
+                        renderOnZeroPageCount={null}
+                        containerClassName={"pagination"}
+                        previousLinkClassName={"pagination__link"}
+                        nextLinkClassName={"pagination__link"}
+                        disabledClassName={"pagination__link--disabled"}
+                        activeClassName={"pagination__link--active"}
+                    />
+                }
             </div>
         </Layout>
     )

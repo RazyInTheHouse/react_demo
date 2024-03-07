@@ -119,6 +119,7 @@ const QueryView = () => {
                     </div>
                 </QueryPanel>
                 <div className="dotted-line"></div>
+                <h3 style={{ textAlign: "right" }}>共{queryData.data.length}筆資料</h3>
                 <Table>
                     <thead>
                         <tr>

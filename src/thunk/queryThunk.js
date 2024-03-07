@@ -7,7 +7,7 @@ export const QueryAction = (payload) => async dispatch => {
     try{
       let input = {
         startTimeBegin: payload.startTimeBegin,
-        startTImeEnd: payload.startTImeEnd,
+        startTImeEnd: payload.startTimeEnd,
         unitID: payload.unitID,
         orderBy: payload.orderBy,
       }
@@ -17,7 +17,6 @@ export const QueryAction = (payload) => async dispatch => {
           ...m,
           id: nextID++
       }))
-      console.log(data)
       dispatch(setData({data}))
     }
     catch(error){

@@ -6,7 +6,6 @@ export const SaveAction = (payload) => async dispatch => {
     dispatch(setShowLoading(true))
     try{
       const { success, ...input } = payload
-      console.log(input)
       await AuthPost('/stock/updateQuantity', input)
       success()
     }

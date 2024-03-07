@@ -5,11 +5,16 @@ import QueryPanel from '../../module/queryPanel';
 import Select from '../../component/select';
 import Table from '../../module/table';
 import { SaveAction, QueryAction } from '../../thunk/stockThunk';
+import { QueryPrintTypeListAction } from '../../thunk/homeThunk';
 
 const StockView = () => {
+    const dispatch = useDispatch()
     const [showManage, setShowManage] = useState(false)
     const [showQuery, setShowQuery] = useState(false)
 
+    useEffect(()=> {
+        dispatch(QueryPrintTypeListAction())
+    }, [])
     const handleShowManage = () => {
         setShowManage(true)
         setShowQuery(false)
@@ -48,14 +53,18 @@ const StockManage = () => {
         setPrintItem(printTypeList.find(m => m.type === printType)?.items)
     },[printType])
 
-    const handleChageIncrease = (value, itemID) => {
+    useEffect(()=>{
+        setPrintItem(printTypeList.find(m => m.type === printType)?.items)
+    },[printTypeList])
+
+    const handleChangeIncrease = (value, itemID) => {
         setPrintItem(prev => prev.map((x) => ({
             ...x,
             add: x.itemID === itemID ? parseInt(value) : x.add
         })))
     }
 
-    const handleChageDelete = (value, itemID) => {
+    const handleChangeDelete = (value, itemID) => {
         setPrintItem(prev => prev.map((x) => ({
             ...x,
             delete: x.itemID === itemID ? parseInt(value) : x.delete
@@ -63,14 +72,17 @@ const StockManage = () => {
     }
 
     const handleSave = () => {
-        if(printItem.some(x => x.add === undefined || x.delete === undefined)){
-            alert('請輸入增減數量')
+        
+        if(printItem.every(x => ((x.add === undefined || isNaN(x.add)) && (x.delete === undefined || isNaN(x.delete))))){
+            alert('請輸入增減數量')            
             return
         }
+        //篩掉沒動過&動過但是沒值的input
         let input = {
-            info: printItem,
+            info: printItem.filter(x => (x.add !== undefined && !isNaN(x.add)) || (x.delete !== undefined && !isNaN(x.delete))),
             success:() => {
                 alert('儲存成功')
+                dispatch(QueryPrintTypeListAction())
             }
         }
         dispatch(SaveAction(input))
@@ -95,7 +107,8 @@ const StockManage = () => {
                                 <th>品名編號</th>
                                 <th>中文名稱</th>
                                 <th>單位</th>
-                                <th>庫存數量</th>
+                                <th>上次入庫數量</th>
+                                <th>現有庫存數量</th>
                                 <th>新增數量</th>
                                 <th>刪除數量</th>
                             </tr>
@@ -107,9 +120,10 @@ const StockManage = () => {
                                         <td data-title="品名編號">{m.itemID}</td>
                                         <td data-title="中文名稱">{m.itemName}</td>
                                         <td data-title="單位">{m.itemUnit}</td>
-                                        <td data-title="庫存數量">{m.quantity}</td>
-                                        <td data-title="新增數量"><input className="form-control form-control-3-1" value={increaseQuantity} onChange={e => handleChageIncrease(e.target.value, m.itemID)}/></td>
-                                        <td data-title="刪除數量"><input className="form-control form-control-3-1" value={deleteQuantity} onChange={e => handleChageDelete(e.target.value, m.itemID)}/></td>
+                                        <td data-title="上次入庫數量">{m.restock}</td>
+                                        <td data-title="現有庫存數量">{m.quantity}</td>
+                                        <td data-title="新增數量"><input className="form-control form-control-3-1" value={increaseQuantity} onChange={e => handleChangeIncrease(e.target.value, m.itemID)}/></td>
+                                        <td data-title="刪除數量"><input className="form-control form-control-3-1" value={deleteQuantity} onChange={e => handleChangeDelete(e.target.value, m.itemID)}/></td>
                                     </tr>                                          
                                 )
                             }        
@@ -149,7 +163,7 @@ const StockQuery = () => {
                                     <th>品名編號</th>
                                     <th>中文名稱</th>
                                     <th>單位</th>
-                                    <th>庫存數量</th>
+                                    <th>現有庫存數量</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -159,7 +173,7 @@ const StockQuery = () => {
                                             <td data-title="品名編號">{m.itemID}</td>
                                             <td data-title="中文名稱">{m.itemName}</td>
                                             <td data-title="單位">{m.itemUnit}</td>
-                                            <td data-title="庫存數量">{m.quantity}</td>
+                                            <td data-title="現有庫存數量">{m.quantity}</td>
                                         </tr>                                          
                                     )
                                 }        

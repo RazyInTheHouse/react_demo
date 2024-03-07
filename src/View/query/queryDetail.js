@@ -29,7 +29,7 @@ const QueryDetail = () => {
     const [address, setAddress] = useState(printApplyDetail.address)
     const formData = useLocationState() 
     const [itemOffset, setItemOffset] = useState(0);
-    const itemPerPage = 5
+    const itemPerPage = 2
     const endOffset = itemOffset + itemPerPage;
     const currentItems = detail.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(detail.length / itemPerPage);
@@ -90,8 +90,9 @@ const QueryDetail = () => {
                         )}
                     </tbody>
                 </Table>
+                <h3 style={{ textAlign: "right" }}>總筆數：{printApplyDetail.detail.length}筆</h3>
                 {
-                    pageCount > 2 &&
+                    pageCount >= 2 &&
                     <ReactPaginate
                         breakLabel="..."
                         nextLabel="下一頁 >"
