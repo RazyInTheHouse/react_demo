@@ -50,6 +50,7 @@ const Navbar = () => {
                                     <Link to="/statistic" onClick={handleCloseSidebar}>申請數量統計</Link> 
                                     <Link to="/review" onClick={handleCloseSidebar}>倉庫審核作業</Link>
                                     <Link to="/stock" onClick={handleCloseSidebar}>庫存作業</Link>
+                                    <Link to="/convert" onClick={handleCloseSidebar}>轉檔作業</Link>
                                 </React.Fragment>    
                             }
                         </div>

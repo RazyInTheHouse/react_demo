@@ -7,18 +7,21 @@ import logo from '../image/logo.png'
 import { setShowSidebar } from '../redux/globalSlice'
 import { logout } from '../redux/globalSlice'
 import useCheckTimeout from '../hook/useCheckTimeout';
+import { useNavigate } from 'react-router-dom';
 
 
 const Header = () => {
     useCheckTimeout()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { empName, isTimeout } = useSelector(s => s.user)
     const handleRdirectToIndex = () => {
-        //navigate('/')
+        navigate('/')
     }
 
     const handleLogout = () => {
         dispatch(logout())
+        navigate('/')
     }
 
     const handleOpenSidebar = () => {

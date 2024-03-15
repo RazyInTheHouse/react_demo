@@ -120,72 +120,73 @@ const PrintApplyDetail = () => {
 
     return(
         <Layout>
-            <div className="panel panel-default">
-                <div className="new-row">
-                    <div className="item-4 item-m-12 item-padding">
-                        <div className="new-row">
-                            <label className="item-form-title form-title">申請人</label>
-                            <div className="item-full form-input">
-                                <input type="text" className="btn btn-text" value={printApplyDetail.applyEmpName} disabled/>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="item-4 item-m-12 item-padding">
-                        <div className="new-row">
-                            <label className="item-form-title form-title">寄送地址</label>
-                            <div className="item-full form-input">
-                                <input type="text" className="btn btn-text" value={address} onChange={e => setAddress(e.target.value)} disabled={!formData.isEdit}/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>序號</th>
-                            <th>品名編號</th>
-                            <th>中文名稱</th>
-                            <th>單位</th>
-                            <th>{formData.isEdit ? `調整數量`:`申請數量`}</th>
-                            {formData.isEdit && <th>刪除</th>}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {detail.map((data, index)=>
-                            formData.isEdit ?
-                            <tr className="first-row last-row" key={index}>
-                                <td data-title="序號">{data.sn}</td>
-                                <td data-title="品名編號">{data.itemID}</td>
-                                <td data-title="中文名稱">{data.itemName}</td>
-                                <td data-title="單位">{data.itemUnit}</td>
-                                <td data-title="調整數量"><input className="form-control" value={data.applyQuantity} onChange={(e) => { handleCheckQuantity(data.sn, e.target.value) }}/></td>
-                                <td data-title="刪除" className="check"><input type="checkbox" onChange={(e) => { handleCheckDeleted(data.sn, e.target.checked) }}/></td>
-                            </tr> 
-                                :
-                            <List key={index} data={data} />
-                        )}
-                    </tbody>
-                </Table>
-            </div> 
-            <div className="button-content">
-                <BackButton className={`btn-lg btn-important`}/>
-                {  
-                    formData.isEdit &&
-                    <button className="btn btn-lg btn-important" onClick={handleSubmit}>確認並送出申請單</button>
-                }
-            </div>
+            <div className="apply-form-info">
 
-            {  
-                formData.isManager &&
+                <div className="panel panel-default">
+                    <div className="new-row">
+                        <div className="item-4 item-m-12 item-padding">
+                            <div className="new-row">
+                                <label className="item-form-title form-title">申請人</label>
+                                <div className="item-full form-input">
+                                    <input type="text" className="btn btn-text" value={printApplyDetail.applyEmpName} disabled/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="item-4 item-m-12 item-padding">
+                            <div className="new-row">
+                                <label className="item-form-title form-title">寄送地址</label>
+                                <div className="item-full form-input">
+                                    <input type="text" className="btn btn-text" value={address} onChange={e => setAddress(e.target.value)} disabled={!formData.isEdit}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>序號</th>
+                                <th>品名編號</th>
+                                <th>中文名稱</th>
+                                <th>單位</th>
+                                <th>{formData.isEdit ? `調整數量`:`申請數量`}</th>
+                                {formData.isEdit && <th>刪除</th>}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {detail.map((data, index)=>
+                                formData.isEdit ?
+                                <tr className="first-row last-row" key={index}>
+                                    <td data-title="序號">{data.sn}</td>
+                                    <td data-title="品名編號">{data.itemID}</td>
+                                    <td data-title="中文名稱">{data.itemName}</td>
+                                    <td data-title="單位">{data.itemUnit}</td>
+                                    <td data-title="調整數量"><input className="form-control" value={data.applyQuantity} onChange={(e) => { handleCheckQuantity(data.sn, e.target.value) }}/></td>
+                                    <td data-title="刪除" className="check"><input type="checkbox" onChange={(e) => { handleCheckDeleted(data.sn, e.target.checked) }}/></td>
+                                </tr> 
+                                    :
+                                <List key={index} data={data} />
+                            )}
+                        </tbody>
+                    </Table>
+                </div> 
                 <div className="button-content">
-                    <button className="btn btn-lg btn-important" onClick={handleShowPopup}>退回申請單</button>                    
-                    <button className="btn btn-lg btn-important" onClick={handleSign}>核准申請單</button>
-                </div>                      
-            }
-            {   formData.isManager &&
-                <SignPopup formNo={printApplyDetail.formNo} isShow={isShowPopup} onClosePopup={handleClosePopup} onSubmit={handleSendBack}/>
-            }
+                    <BackButton className={`btn-lg btn-important`}/>
+                    {  
+                        formData.isEdit &&
+                        <button className="btn btn-lg btn-important" onClick={handleSubmit}>確認並送出申請單</button>
+                    }
+                    {  
+                        formData.isManager &&
+                        <React.Fragment>
+                            <button className="btn btn-lg btn-important" onClick={handleShowPopup}>退回申請單</button>                    
+                            <button className="btn btn-lg btn-important" onClick={handleSign}>核准申請單</button>
+                            <SignPopup formNo={printApplyDetail.formNo} isShow={isShowPopup} onClosePopup={handleClosePopup} onSubmit={handleSendBack}/>
+                        </React.Fragment>      
+                    }
+                </div>                           
+            </div>
+            
         </Layout>   
     )
 }

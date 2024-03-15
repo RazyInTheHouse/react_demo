@@ -140,7 +140,7 @@ const QueryView = () => {
                     </tbody>
                 </Table>
                 {
-                    pageCount > 2 &&
+                    pageCount >= 2 &&
                     <ReactPaginate
                         breakLabel="..."
                         nextLabel="下一頁 >"

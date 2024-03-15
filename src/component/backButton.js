@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-const BackButton = ({className, text = '回前頁修改' }) => {
+const BackButton = ({className, text = '回前頁' }) => {
     const navigate = useNavigate()
     const handleBack = () => {
         navigate(-1)

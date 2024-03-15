@@ -207,6 +207,10 @@ const MaintainPrintItem = () => {
             return
         }
 
+        if(printItem.some(x => /^\d+$/.test(x.shelfID) === false)){
+            alert('架號為整數')
+            return
+        }
         let input = {
             info:{
                 type: printType,

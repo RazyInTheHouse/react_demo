@@ -169,7 +169,7 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: space-evenly;
         @include mobile {
             justify-content: space-between;
             & > .btn {

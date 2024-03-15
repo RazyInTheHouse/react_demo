@@ -13,6 +13,7 @@ import ReviewView from './view/review/reviewView';
 import ReviewDetail from './view/review/reviewDetail';
 import MaintainView from './view/maintain/maintainView';
 import StockView from './view/stock/stockView';
+import ConvertView from './view/convert/convertView';
 
 const route = [    
     {
@@ -74,6 +75,10 @@ const route = [
     {
         path: '/Stock',
         component: StockView,
+    },
+    {
+        path: '/Convert',
+        component: ConvertView,
     },
 ]
 
